@@ -12,6 +12,5 @@ class CarTest {
 
     @org.junit.jupiter.api.Test
     void setMake() {
-        fail();
     }
 }

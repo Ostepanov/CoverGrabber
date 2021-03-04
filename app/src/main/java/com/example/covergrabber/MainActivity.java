@@ -2,7 +2,13 @@ package com.example.covergrabber;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,10 +23,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
     String url ="";
-    String name = "Iron Maiden";
     Button btUpdate;
     ImageView cover;
     TextView textOutput;
@@ -33,5 +39,38 @@ public class MainActivity extends AppCompatActivity {
         cover = findViewById(R.id.cover);
         textOutput = findViewById(R.id.url);
 
+        new DownloadImageTask((ImageView) findViewById(R.id.cover))
+                .execute("https://lastfm.freetls.fastly.net/i/u/174s/bec75daa4dab41e38924b0d3b2dcf115.png");
+
+
+        btUpdate.setOnClickListener(v -> {
+
+        });}
+
+
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            cover.setImageBitmap(result);
+        }
     }
 }
