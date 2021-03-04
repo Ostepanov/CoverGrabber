@@ -1,5 +1,5 @@
 package com.example.covergrabber;
-
+https://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
