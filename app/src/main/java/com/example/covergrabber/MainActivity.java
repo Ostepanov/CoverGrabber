@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
-    String url = "https://enroks.es/php/currentCover.php";
+    String urlCover = "https://enroks.es/php/currentCover.php";
     Button btUpdate;
     ImageView cover;
     TextView textOutput;
@@ -50,17 +50,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         private void Load(){
-        result = sendGetRequest();
+        result = sendGetRequest(urlCover);
         Picasso.get().load(result).into(cover);
+
         }
     //request to page for obtain song title
-        private String sendGetRequest(){
+        private String sendGetRequest(String url){
             RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                //res = StringUtils.substringBetween(response, "<p style=color:#f07700;text-align:center><b>","</b></p>");
-                    res = response;
+                    if(url.contains("Cover")){
+                        res = response;
+                    }
+                    else
+                        res = StringUtils.substringBetween(response, "<p style=color:#f07700;text-align:center><b>","</b></p>");
                 }
             }, new Response.ErrorListener() {
                 @SuppressLint("SetTextI18n")
