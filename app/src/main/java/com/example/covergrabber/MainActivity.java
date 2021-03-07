@@ -1,5 +1,4 @@
 package com.example.covergrabber;
-//https://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -28,10 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
-    String url ="https://lastfm.freetls.fastly.net/i/u/174s/bec75daa4dab41e38924b0d3b2dcf115.png";
+    String url = "https://enroks.es/php/currentCover.php";
     Button btUpdate;
     ImageView cover;
     TextView textOutput;
+    String res, result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +40,37 @@ public class MainActivity extends AppCompatActivity {
         btUpdate = findViewById(R.id.button);
         cover = findViewById(R.id.cover);
         textOutput = findViewById(R.id.url);
-/*
-        new DownloadImageTask((ImageView) findViewById(R.id.cover))
-                .execute("https://lastfm.freetls.fastly.net/i/u/174s/bec75daa4dab41e38924b0d3b2dcf115.png");
 
-*/
         btUpdate.setOnClickListener(v -> {
-
             Load();
-
         });}
 
+
+
+
+
         private void Load(){
-        Picasso.get().load(url).into(cover);
+        result = sendGetRequest();
+        Picasso.get().load(result).into(cover);
+        }
+    //request to page for obtain song title
+        private String sendGetRequest(){
+            RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                //res = StringUtils.substringBetween(response, "<p style=color:#f07700;text-align:center><b>","</b></p>");
+                    res = response;
+                }
+            }, new Response.ErrorListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    textOutput.setText("ENROKS RADIO");
+                }
+            });
+        queue.add(stringRequest);
+        return res;
         }
 
 
