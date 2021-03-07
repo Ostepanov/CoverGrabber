@@ -1,8 +1,9 @@
 package com.example.covergrabber;
-https://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
+//https://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -21,12 +22,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
-    String url ="";
+    String url ="https://lastfm.freetls.fastly.net/i/u/174s/bec75daa4dab41e38924b0d3b2dcf115.png";
     Button btUpdate;
     ImageView cover;
     TextView textOutput;
@@ -38,17 +40,29 @@ public class MainActivity extends AppCompatActivity {
         btUpdate = findViewById(R.id.button);
         cover = findViewById(R.id.cover);
         textOutput = findViewById(R.id.url);
-
+/*
         new DownloadImageTask((ImageView) findViewById(R.id.cover))
                 .execute("https://lastfm.freetls.fastly.net/i/u/174s/bec75daa4dab41e38924b0d3b2dcf115.png");
 
-
+*/
         btUpdate.setOnClickListener(v -> {
+
+            Load();
 
         });}
 
+        private void Load(){
+        Picasso.get().load(url).into(cover);
+        }
 
 
+
+
+
+
+
+
+/*
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
@@ -72,5 +86,5 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             cover.setImageBitmap(result);
         }
-    }
+    }*/
 }
